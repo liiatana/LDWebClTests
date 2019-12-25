@@ -3,9 +3,9 @@ package ru.lanit.ld.wc.model;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.codec.binary.Base64;
 import ru.lanit.ld.wc.appmanager.ApplicationManager;
 import ru.lanit.ld.wc.appmanager.RestApiHelper;
-import sun.misc.BASE64Encoder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class Users {
@@ -48,11 +47,9 @@ public class Users {
         }
 
 
-        BASE64Encoder encoder = new BASE64Encoder();
-
         for (UserInfo user : this.users) {
-            user.withAuth("Basic " + encoder.encode(String.format("%s:%s", user.getLogin(), user.getPassword()).getBytes()));
-            //RestApiHelper uapi = new RestApiHelper(user, app);
+            user.withAuth("Basic " + Base64.encodeBase64String(String.format("%s:%s", user.getLogin(), user.getPassword()).getBytes()));
+
             user.withUserApi(new RestApiHelper(user, app));
             JsonElement parsed = user.getUserApi().me();
             user.withId(parsed.getAsJsonObject().get("effectiveUserId").getAsInt()) // id пользователя
