@@ -1,0 +1,54 @@
+apply plugin: 'java'
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = "UTF-8"
+
+repositories{
+    mavenCentral()
+    //jcenter()
+}
+
+
+dependencies{
+    compile 'org.testng:testng:7.0.0-beta1'
+    compile group: 'com.codeborne', name: 'selenide', version: '5.2.4'
+    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.12.1'
+    compile group: 'io.qameta.allure', name: 'allure-selenide', version: '2.13.0'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    compile 'com.jayway.restassured:rest-assured:2.9.0'//библиотека для работы c rest, см https://github.com/rest-assured/rest-assured //25.06.2019=последняя
+    compile 'org.hamcrest:java-hamcrest:2.0.0.0'//проверки fluent //25.06.2019=последняя
+    implementation("org.slf4j:slf4j-jdk14:1.8.0-beta2")
+    compile 'org.aspectj:aspectjweaver:1.9.4'
+
+}
+
+
+test{
+    useTestNG {
+         //suites 'src/test/resources/testng.xml'
+        //doFirst {
+        //    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+        //}
+    }
+
+    if(project.hasProperty('browser'))    {
+        systemProperty 'browser', "${browser}"
+        //systemProperty 'browser', System.getProperty('browser')
+    }
+    if(project.hasProperty('browserSize'))    {
+        systemProperty 'browserSize', "${browserSize}"
+
+    }
+
+    if(project.hasProperty('fversion'))    {
+        systemProperty 'fversion', "${fversion}"
+        //systemProperty 'browser', System.getProperty('browser')
+    }
+    if(project.hasProperty('bversion'))    {
+        systemProperty 'bversion', "${bversion}"
+
+    }
+}
+
+
+
