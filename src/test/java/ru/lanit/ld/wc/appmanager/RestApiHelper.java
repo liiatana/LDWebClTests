@@ -8,14 +8,23 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.lanit.ld.wc.model.*;
+import ru.lanit.ld.wc.tests.TestBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class RestApiHelper {
 
     private String cookies;
     private String apiPath;
+    private String landocs_sessionid;
+    public Thread session;
+
+    private Logger logger = LoggerFactory.getLogger(RestApiHelper.class);
 
     public RestApiHelper(UserInfo user, ApplicationManager applicationManager) {
 
@@ -24,7 +33,13 @@ public class RestApiHelper {
         Response response = RestAssured
                 .given().header("Authorization", user.getAuth())
                 .get(String.format("%sauth/basic", apiPath));
-        cookies = String.format("landocs.claims=%s; landocs_sessionid=%s", response.getCookie("landocs.claims"), response.getCookie("landocs_sessionid"));
+        //landocs_sessionid=response.getCookie("landocs_sessionid");
+        //cookies = String.format("landocs.claims=%s; landocs_sessionid=%s", response.getCookie("landocs.claims"), this.landocs_sessionid);
+        if(response.getStatusCode()==200){
+            landocs_sessionid=response.getCookie("landocs_sessionid");
+            cookies = String.format("landocs.claims=%s; landocs_sessionid=%s", response.getCookie("landocs.claims"), this.landocs_sessionid);
+            this.maintainSession();
+        }
 
     }
 
@@ -212,10 +227,37 @@ public class RestApiHelper {
 
     public String getBackVersion() {
         Response response  = RestAssured
-                //.given().header("Cookie", cookies)
                 .get(String.format("%sadmin/apiversion", apiPath));
-
         return response.getBody().print();
-
     }
+
+    public Boolean ping() {
+        Response response = RestAssured
+                .given().header("Cookie", cookies)
+                .contentType("application/json")
+                .get(String.format("%sproxy/ping", apiPath));
+        return Boolean.parseBoolean(response.getBody().asString());
+    }
+
+
+    public void maintainSession() {
+        Runnable task = () -> {
+            while(!Thread.currentThread().isInterrupted()) {
+                ping();
+                try {
+                    TimeUnit.SECONDS.sleep(120);
+                    logger.info("Ping from user with landocs_sessionid: " + this.landocs_sessionid);
+                } catch (InterruptedException e) {
+                    //e.printStackTrace();
+                    logger.info("End ping from user with landocs_sessionid: " + this.landocs_sessionid);
+                }
+            }
+            logger.info("Finished: ping from user with landocs_sessionid:" + this.landocs_sessionid);
+
+        };
+        this.session = new Thread(task);
+        this.session.start();
+    }
+
+
 }

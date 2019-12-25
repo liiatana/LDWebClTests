@@ -118,4 +118,11 @@ public class Users {
 
         return -1;
     }
+
+    public void stopAllMaintainSession(){
+        for (int i = 0; i < this.users.size(); i++) {
+            this.users.get(i).getUserApi().session.interrupt();
+            //System.out.println("Stop maintain session for user with login="+ this.users.get(i).getLogin());
+        }
+    }
 }

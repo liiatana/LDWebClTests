@@ -81,7 +81,7 @@ public class ApplicationManager {
 
 
     public void stop() {
-
+        this.userList.stopAllMaintainSession();
         focusedUser.getUserApi().makeHomeAsLastUrl();
     }
 
