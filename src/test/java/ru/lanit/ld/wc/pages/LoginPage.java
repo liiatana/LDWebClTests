@@ -9,7 +9,7 @@ import ru.lanit.ld.wc.model.UserInfo;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class LoginPage {
+public class LoginPage extends _BasePage {
 
 
     private SelenideElement userLogin= $(By.xpath("//input[@id=\"login-field\"]"));
@@ -27,7 +27,8 @@ public class LoginPage {
     public WorkArea loginAs(UserInfo user) {
 
         fillLoginInfomation(user);
-        sleep(6000);
+        //sleep(6000);
+        this.waitLoading();
         return page(WorkArea.class);
 
     }
@@ -55,7 +56,7 @@ public class LoginPage {
 
 
     public LoginPage open() {
-        String url= "login";//"http://172.29.17.193/landocsweb2/login";
+        String url= "login";
         Selenide.open(url);
         return this;
 

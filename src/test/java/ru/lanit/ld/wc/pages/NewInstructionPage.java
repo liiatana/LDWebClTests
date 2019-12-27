@@ -11,31 +11,18 @@ import ru.lanit.ld.wc.model.UserInfo;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class NewInstructionPage {
+public class NewInstructionPage  extends  _BasePage {
 
 
     public CancelOK_Dialog dialog;
     public ChoosePersonForm choosePersonForm;
     public InstructionPanel instructionPanel;
 
-    //public SelenideElement subject = $(By.xpath("//input[@placeholder=\"Тема сообщения\"]")); OLD
     public SelenideElement subject = $(By.xpath("//input[@id=\"msgTheme\"]"));
-
-
     public SelenideElement text = $(By.xpath("//textarea[@name=\"input-10-1\"]"));
-
     public SelenideElement comment = $(By.xpath("//textarea[@name=\"input-2-1\"]"));
-
     private SelenideElement receiver = $(By.xpath("//input[@id=\"multiselect\"]"));
-
     private ElementsCollection receiversList = $$(By.xpath("//div[@class=\"multiselect__content-wrapper\"]/ul/li"));
-
-    /*    public SelenideElement cancelButton = $(By.xpath("//div[@class=\"layout instruction-right-btn-panel edit-btn justify-end align-center px-0\"]/button[1]"));
-
-        public SelenideElement saveProjectButton = $(By.xpath("//div[@class=\"layout instruction-right-btn-panel edit-btn justify-end align-center px-0\"]/button[2]"));
-
-        public SelenideElement sendButton = $(By.xpath("(//div[@class=\"layout instruction-right-btn-panel edit-btn justify-end align-center px-0\"]/button)[3]"));
-    */
     private ElementsCollection sendType = $$(By.xpath("//div[@class=\"flex pt-2 pl-1\"]/*//button"));
 
     private SelenideElement withExecutive = $(By.xpath("(//div[@class=\"v-input--selection-controls__input\"])[1]"));
@@ -44,8 +31,6 @@ public class NewInstructionPage {
 
     private SelenideElement hasAuditor = $(By.xpath("(//input[@id=\"withExecutive\"])[2]"));
     private SelenideElement auditorArea = $(By.xpath("//div[@class=\"flex xl12 lg12 md12 sm12 xs12 pr-2 pl-1\"]"));
-    //private SelenideElement auditorInput=$(By.xpath("//input[@id=\"auditor\"]"));
-
 
     private SelenideElement initiatorArea = $(By.xpath("//div[@class=\"flex pr-2 pl-1 xl12 lg12 md12 sm12 xs12\"]"));
     // private SelenideElement initiatorInput=$(By.xpath("//input[@id=\"initiator\"]"));
@@ -53,7 +38,6 @@ public class NewInstructionPage {
 
     private SelenideElement reportReceiverArea = $(By.xpath("//div[@id=\"use-control\"]/div"));
     //private SelenideElement reportReceiverInput=$(By.xpath("//input[@id=\"receiver\"]"));
-
 
     private SelenideElement choosePerson = $(By.xpath("//button[@id=\"addReceiver\"]"));
 
