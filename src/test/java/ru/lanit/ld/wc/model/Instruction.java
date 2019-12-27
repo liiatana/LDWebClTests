@@ -86,32 +86,43 @@ public class Instruction {
 
         this.state = jsonInstruction.get("state").getAsInt();
         this.stateName = jsonInstruction.get("stateName").getAsString();
-        this.subject = jsonInstruction.get("subject").getAsString();
-        this.text = jsonInstruction.get("text").getAsString();
+
+        if (!jsonInstruction.get("subject").isJsonNull()) {
+            this.subject = jsonInstruction.get("subject").getAsString();
+        }
+
+        if(jsonInstruction.has("text")) //если есть такой параметр
+        {
+            if (!jsonInstruction.get("text").isJsonNull()) {
+                this.text = jsonInstruction.get("text").getAsString();
+            }
+        }
+
 
         this.receiverID= Arrays.stream(jsonInstruction.get("receiverID").getAsString().split(",")).mapToInt(Integer::parseInt).toArray();
         //LocalDateTime secondParseResult = LocalDateTime.parse("September, 24, 2014 17:18:55", DateTimeFormatter.ofPattern("MMMM, dd, yyyy HH:mm:ss"));
 
         // срок исполнения
-        if (!jsonInstruction.get("executionEndDate").isJsonNull()) {
-            this.executionDate =LocalDateTime.parse(jsonInstruction.get("executionEndDate").getAsString().substring(0,16).replace("T", ""),
-                    DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm"));
-            // DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm"));
+        if(jsonInstruction.has("executionEndDate")) { //если такой параметр вернулся
+            if (!jsonInstruction.get("executionEndDate").isJsonNull()) {
+                this.executionDate = LocalDateTime.parse(jsonInstruction.get("executionEndDate").getAsString().substring(0, 16).replace("T", ""),
+                        DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm"));
+                // DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm"));
+            }
         }
 
         this.permissions=new instructionPermissions(parsed);
-        if (!jsonInstruction.get("result").isJsonNull()) {
-            this.result=jsonInstruction.get("result").getAsString();
-            this.report= new Report(jsonInstruction);
 
-        }else  this.result= null;//this.result="";
-//instructionFolder iFolder=new instructionFolder(jsonInstruction.get("folder").getAsJsonObject());
+        if(jsonInstruction.has("result")) { //если такой параметр вернулся
+            if (!jsonInstruction.get("result").isJsonNull()) {
+                this.result = jsonInstruction.get("result").getAsString();
+                this.report = new Report(jsonInstruction);
+
+            } else this.result = null;//this.result="";
+        }
+        //instructionFolder iFolder=new instructionFolder(jsonInstruction.get("folder").getAsJsonObject());
 
         this.folder= new instructionFolder(jsonInstruction.get("folder").getAsJsonObject());
-
-
-
-
     }
 
     public Instruction() {
