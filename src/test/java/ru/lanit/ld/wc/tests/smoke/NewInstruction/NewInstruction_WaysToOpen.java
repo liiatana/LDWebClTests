@@ -13,19 +13,19 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class NewInstructionOpen extends TestBase {
+public class NewInstruction_WaysToOpen extends TestBase {
 
     private WorkArea wa;
 
     @BeforeClass
     public void before() {
 
-        // авторизация
         LoginPage lp = new LoginPage();
         wa = lp.open().loginAs(app.focusedUser);
 
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
     public Object[][] newInstructionType() {
@@ -33,7 +33,7 @@ public class NewInstructionOpen extends TestBase {
         return new Object[][]{
                 new Object[]{instructionType,String.format("%smessage/new/%s",app.baseUrl,instructionType.getId())}};
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Epic(value = "Раздел Сообщения")
     @Feature(value = "Новое сообщение")
@@ -63,6 +63,7 @@ public class NewInstructionOpen extends TestBase {
 
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @AfterMethod
     private void afterEachMethod() {

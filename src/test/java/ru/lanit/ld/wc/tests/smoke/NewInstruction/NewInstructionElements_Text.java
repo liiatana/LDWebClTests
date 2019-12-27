@@ -19,10 +19,8 @@ public class NewInstructionElements_Text extends TestBase {
 
     @BeforeClass
     public void before() {
-
         LoginPage lp = new LoginPage();
         wa = lp.open().loginAs(app.focusedUser);
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +45,7 @@ public class NewInstructionElements_Text extends TestBase {
 
         wa.newInstructionPage.text.should(Condition.exist);
         wa.newInstructionPage.text.shouldHave(Condition.type("textarea"));
+        wa.newInstructionPage.text.shouldHave(Condition.attribute("maxlength","4000"));
      }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +69,6 @@ public class NewInstructionElements_Text extends TestBase {
             description ="Проверка значения по умолчанию для поля Текст" )
     public void defaultSubject(InstructionType instructionType)
     {
-
         wa.newInstructionPage= wa.openNew(instructionType);
 
         wa.newInstructionPage.text.shouldHave(Condition.value(instructionType.getTemplateTextE()));

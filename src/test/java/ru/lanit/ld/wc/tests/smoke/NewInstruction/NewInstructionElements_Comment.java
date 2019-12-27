@@ -26,6 +26,7 @@ public class NewInstructionElements_Comment extends TestBase {
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @DataProvider
     public Object[][] newInstructionType() {
 
@@ -34,6 +35,7 @@ public class NewInstructionElements_Comment extends TestBase {
                 new Object[]{app.focusedUser.getUserTypes().getAnyTaskType()}
         };
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Epic(value = "Раздел Сообщения")
     @Feature(value = "Новое сообщение")
@@ -44,7 +46,6 @@ public class NewInstructionElements_Comment extends TestBase {
     public void commentElementExists(InstructionType instructionType)
     {
         wa.newInstructionPage= wa.openNew(instructionType);
-
         wa.newInstructionPage.comment.shouldHave(Condition.type("textarea"));
      }
 
@@ -60,7 +61,6 @@ public class NewInstructionElements_Comment extends TestBase {
     {
 
         wa.newInstructionPage= wa.openNew(instructionType);
-
         wa.newInstructionPage.comment.shouldHave(Condition.value(""));
     }
 

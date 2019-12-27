@@ -16,7 +16,7 @@ import ru.lanit.ld.wc.tests.TestBase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class NewInstruction_Comment extends TestBase {
+public class NewInstructionFieldValue_Comment extends TestBase {
 
     private WorkArea wa;
 

@@ -19,13 +19,12 @@ public class NewInstructionElements_Subject extends TestBase {
 
     @BeforeClass
     public void before() {
-
         LoginPage lp = new LoginPage();
         wa = lp.open().loginAs(app.focusedUser);
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @DataProvider
     public Object[][] newInstructionType() {
 
@@ -47,6 +46,7 @@ public class NewInstructionElements_Subject extends TestBase {
 
         wa.newInstructionPage.subject.should(Condition.exist);
         wa.newInstructionPage.subject.shouldHave(Condition.type("text"));
+
      }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ public class NewInstructionElements_Subject extends TestBase {
 
         };
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Epic(value = "Раздел Сообщения")
     @Feature(value = "Новое сообщение")
@@ -70,12 +70,11 @@ public class NewInstructionElements_Subject extends TestBase {
             description ="Проверка значения по умолчанию для поля ТЕМА" )
     public void defaultSubject(InstructionType instructionType)
     {
-
         wa.newInstructionPage= wa.openNew(instructionType);
-
         wa.newInstructionPage.subject.shouldHave(Condition.value(instructionType.getName()));
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @AfterMethod
     private void afterEachMethod() {
