@@ -9,7 +9,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.lanit.ld.wc.appmanager.InstructionTopFolders;
 import ru.lanit.ld.wc.model.Instruction;
-import ru.lanit.ld.wc.model.InstructionType;
 import ru.lanit.ld.wc.pages.LoginPage;
 import ru.lanit.ld.wc.pages.WorkArea;
 import ru.lanit.ld.wc.tests.TestBase;
@@ -23,13 +22,12 @@ public class NewInstruction_Comment extends TestBase {
 
     @BeforeClass
     public void before() {
-
         LoginPage lp = new LoginPage();
         wa = lp.open().loginAs(app.focusedUser);
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @DataProvider
     public Object[][] textGenerator() {
 
@@ -40,6 +38,7 @@ public class NewInstruction_Comment extends TestBase {
                };
 
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Epic(value = "Раздел Сообщения")
     @Feature(value = "Новое сообщение")
