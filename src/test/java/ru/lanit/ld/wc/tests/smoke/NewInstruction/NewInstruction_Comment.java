@@ -7,6 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.lanit.ld.wc.appmanager.InstructionTopFolders;
 import ru.lanit.ld.wc.model.Instruction;
 import ru.lanit.ld.wc.model.InstructionType;
 import ru.lanit.ld.wc.pages.LoginPage;
@@ -51,7 +52,7 @@ public class NewInstruction_Comment extends TestBase {
         wa.createMessage(new Instruction().withComment(textToType),
                 "send",app);
         Instruction createdInstruction =
-                app.focusedUser.getUserApi().getLastInstruction(2101);
+                app.focusedUser.getUserApi().getLastInstruction(InstructionTopFolders.OUTCOMING.getId());
 
         assertThat(createdInstruction.getComment(), equalTo(textToType));
      }
