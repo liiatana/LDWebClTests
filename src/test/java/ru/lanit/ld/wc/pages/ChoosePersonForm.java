@@ -11,22 +11,23 @@ import ru.lanit.ld.wc.model.UserInfo;
 import static com.codeborne.selenide.Selenide.*;
 
 public class ChoosePersonForm {
+
     private SelenideElement searchField = $(By.xpath("//input[@id=\"search\"]"));
     private ElementsCollection persons = $$(By.xpath("//div[@id=\"selector\"]/div/div"));
 
     private ElementsCollection choosenPersons = $$(By.xpath("//div[@class=\"layout ml-2 column\"]/div/*/span"));
 
-
-    //private SelenideElement buttonOk = $(By.xpath("//div[@class=\"small-button rounded-button elevation-0 v-btn theme--light primary\"]/*//button[1]"));
-    //button[@class="small-button rounded-button elevation-0 v-btn theme--light primary"]
     private SelenideElement buttonOk = $(By.xpath("//button[@class=\"small-button rounded-button elevation-0 v-btn theme--light primary\"]"));
-
-    //private SelenideElement buttonCancel = $(By.xpath("//div[@class=\"v-dialog modal v-dialog--active v-dialog--persistent\"]/*//button[2]"));
     private SelenideElement buttonCancel = $(By.xpath("//button[@class=\"small-button rounded-button v-btn v-btn--outline v-btn--depressed theme--light primary--text\"]"));
+
+    //private SelenideElement progressBar = $(By.xpath("//*[@id=\"selector\"]/div[@class=\"progress-linear\"]"));
+    private SelenideElement grid =$(By.xpath("//*[@id=\"selector\"]/div[@class=\"datatable-scroll\"]"));
 
     public void insertPersons(int[] userIds, ApplicationManager app) {
 
-        sleep(10000);
+        //sleep(1000);
+        //progressBar.waitUntil(Condition.disappear ,10000,1000);
+        grid.waitUntil(Condition.exist, 60000);
 
         if (choosenPersons.size() > 0) {
             clearAllPersons();
@@ -40,9 +41,7 @@ public class ChoosePersonForm {
             searchField.sendKeys(currentUser.getLastName());
 
             persons.findBy(Condition.text(currentUser.getUserName())).click();
-
         }
-
         buttonOk.click();
 
     }
