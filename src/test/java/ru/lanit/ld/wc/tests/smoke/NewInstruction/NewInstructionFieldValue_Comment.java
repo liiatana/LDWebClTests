@@ -7,7 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import ru.lanit.ld.wc.appmanager.InstructionTopFolders;
+import ru.lanit.ld.wc.enums.InstructionTopFolders;
 import ru.lanit.ld.wc.model.Instruction;
 import ru.lanit.ld.wc.pages.LoginPage;
 import ru.lanit.ld.wc.pages.WorkArea;

@@ -1,4 +1,4 @@
-package ru.lanit.ld.wc.appmanager;
+package ru.lanit.ld.wc.enums;
 
 public enum InstructionTopFolders {
     INCOMING (1999, "Входящая"),
