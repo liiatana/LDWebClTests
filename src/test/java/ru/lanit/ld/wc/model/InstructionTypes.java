@@ -114,4 +114,12 @@ public class InstructionTypes {
         else return false;
 
     }
+
+    // возвращает один любой тип задания кроме заданного
+    public InstructionType getAnyTaskTypeExcept(InstructionType excludeType) {
+        return this.typeList.stream()
+                .filter(x -> x.getUseControl() == true)
+                .filter(x -> x.getId() != excludeType.getId())
+                .findAny().orElse(null);
+    }
 }
