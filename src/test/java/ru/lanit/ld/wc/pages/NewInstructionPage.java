@@ -51,7 +51,8 @@ public class NewInstructionPage  extends  _BasePage {
 
     public void fillForm(Instruction newInstruction, ApplicationManager app, boolean useChoosePersonForm) {
 
-        sleep(2000);
+        //sleep(2000);
+        waitLoading();
 
         //текстовые поля
         if (subject.getValue() != null && newInstruction.getSubject() != null) {
@@ -198,7 +199,8 @@ public class NewInstructionPage  extends  _BasePage {
             field.$x(".//span/*/div[@class=\"v-chip__close\"]").click();
         }
 
-        sleep(3000);
+        //sleep(3000);
+        waitLoading();
 
         field.$x(".//input").parent().parent().sendKeys(user.getLastName());
         receiversList.findBy(Condition.text(user.getUserName())).click();
@@ -210,7 +212,7 @@ public class NewInstructionPage  extends  _BasePage {
     }
 
 
-    public WorkArea exitWithoutSaving()//new
+    public WorkArea exitWithoutSaving()
     {
         instructionPanel.cancelButton.click();
         if (dialog.buttonOK.exists()) {
