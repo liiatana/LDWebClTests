@@ -23,7 +23,9 @@ public class NewInstructionPage  extends  _BasePage {
     public SelenideElement comment = $(By.xpath("//textarea[@name=\"input-2-1\"]"));
     private SelenideElement receiver = $(By.xpath("//input[@id=\"multiselect\"]"));
     private ElementsCollection receiversList = $$(By.xpath("//div[@class=\"multiselect__content-wrapper\"]/ul/li"));
-    private ElementsCollection sendType = $$(By.xpath("//div[@class=\"flex pt-2 pl-1\"]/*//button"));
+
+    // //*[@id="msgParams"] - xpath для параметров сообщения
+    public ElementsCollection sendTypes = $$(By.xpath("//div[@class=\"flex pt-2 pl-1\"]/*//button"));
 
     private SelenideElement withExecutive = $(By.xpath("(//div[@class=\"v-input--selection-controls__input\"])[1]"));
     private SelenideElement reportToExecutive = $(By.xpath("(//div[@class=\"v-input--selection-controls__input\"])[2]"));
@@ -73,7 +75,7 @@ public class NewInstructionPage  extends  _BasePage {
 
     {
         //тип рассылки
-        sendType.get(newInstruction.getSendType()).click();
+        sendTypes.get(newInstruction.getSendType()).click();
 
         //ответ.исполнитель и отчеты ответственному
         setExecutiveOptions(newInstruction.isWithExecutive(), newInstruction.isReportToExecutive());
@@ -220,5 +222,7 @@ public class NewInstructionPage  extends  _BasePage {
         }
         return new WorkArea();
     }
+
+
 
 }
