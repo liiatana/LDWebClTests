@@ -10,6 +10,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.lanit.ld.wc.appmanager.ApplicationManager;
+import ru.lanit.ld.wc.enums.EsignModes;
 import ru.lanit.ld.wc.pages.LoginPage;
 
 import java.lang.reflect.Method;
@@ -40,6 +41,7 @@ public class TestBase {
         app.allureManager.addEnviromentInfo("FrontVersion", lp.open().version.getText().substring(2));
 
         app.focusedUser.getUserApi().makeHomeAsLastUrl();
+        app.userList.getAnyAdmin().getUserApi().patchSettings( "EsignMode", EsignModes.DISABLED.toString()); //отключить ЭП
 
     }
 

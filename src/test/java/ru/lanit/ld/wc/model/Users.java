@@ -122,4 +122,10 @@ public class Users {
             //System.out.println("Stop maintain session for user with login="+ this.users.get(i).getLogin());
         }
     }
+
+    public UserInfo getAnyAdmin(){
+        return this.users.stream()
+                .filter(x -> x.isAdmin() == true)
+                .findAny().orElse(null);
+    }
 }

@@ -11,10 +11,8 @@ import com.jayway.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.lanit.ld.wc.model.*;
-import ru.lanit.ld.wc.tests.TestBase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class RestApiHelper {
@@ -259,5 +257,18 @@ public class RestApiHelper {
         this.session.start();
     }
 
+    public boolean patchSettings(String paramentr, String newValue){
+        JsonObject param = new JsonObject();
+        param.addProperty(paramentr,newValue );
 
+        Response response = RestAssured
+                .given().header("Cookie", cookies)
+                .contentType("application/json")
+                .body(param.toString())
+                .patch(String.format("%sadmin/settings", apiPath));
+        if(response.getStatusCode()==200){
+            return true;
+        } else return false;
+
+    }
 }
