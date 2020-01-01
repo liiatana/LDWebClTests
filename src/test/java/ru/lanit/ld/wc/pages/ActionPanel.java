@@ -10,7 +10,7 @@ import ru.lanit.ld.wc.model.InstructionType;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class ActionPanel {
+public class ActionPanel extends _BasePage {
 
     private SelenideElement area=$(By.xpath("//div[@id=\"wsHeaderWrapper\"]"));
     private SelenideElement PlusButton = area.$(By.xpath("/*//div[@id=\"msgAddMenu\"]"));
@@ -64,6 +64,7 @@ public class ActionPanel {
     public NewInstructionPage PlusButtonClick(InstructionType type) {
         PlusButton.click();
         plusButtonMenu.filterBy(Condition.exactText(type.getName())).first().click();
+        waitLoading();
         return page(NewInstructionPage.class);
     }
 

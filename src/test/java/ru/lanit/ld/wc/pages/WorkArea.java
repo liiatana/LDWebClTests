@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WorkArea {
+public class WorkArea extends _BasePage {
     //public SideBar SideBar;
     public Header header;
     public ActionPanel actionPanel;
@@ -46,7 +46,7 @@ public class WorkArea {
             actionPanel.PlusButtonClick(instructionType);
         }
         ;
-
+        waitLoading();
         return newInstructionPage;
     }
 

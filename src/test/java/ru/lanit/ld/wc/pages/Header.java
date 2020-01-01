@@ -10,7 +10,7 @@ import ru.lanit.ld.wc.model.InstructionType;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class Header {
+public class Header extends  _BasePage {
 
     private SelenideElement FIO =
             //$(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Настройки пользователя'])[1]/following::button[4]"));
@@ -57,6 +57,7 @@ public class Header {
         objectTypes_dialog.availableTypes.findBy(
                 Condition.text(type.getName())).click();
 
+        waitLoading();
         return page(NewInstructionPage.class);
     }
 }

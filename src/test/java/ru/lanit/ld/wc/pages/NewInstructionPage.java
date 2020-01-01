@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import ru.lanit.ld.wc.appmanager.ApplicationManager;
+import ru.lanit.ld.wc.enums.SendTypes;
 import ru.lanit.ld.wc.model.Instruction;
 import ru.lanit.ld.wc.model.UserInfo;
 
@@ -25,7 +26,8 @@ public class NewInstructionPage  extends  _BasePage {
     private ElementsCollection receiversList = $$(By.xpath("//div[@class=\"multiselect__content-wrapper\"]/ul/li"));
 
     // //*[@id="msgParams"] - xpath для параметров сообщения
-    public ElementsCollection sendTypes = $$(By.xpath("//div[@class=\"flex pt-2 pl-1\"]/*//button"));
+    public ElementsCollection sendTypes = $$(By.xpath("//*[@id=\"msgParams\"]/*//button")); ////div[@class="flex pt-2 pl-1"]/*//button
+
 
     private SelenideElement withExecutive = $(By.xpath("(//div[@class=\"v-input--selection-controls__input\"])[1]"));
     private SelenideElement reportToExecutive = $(By.xpath("(//div[@class=\"v-input--selection-controls__input\"])[2]"));
@@ -223,6 +225,21 @@ public class NewInstructionPage  extends  _BasePage {
         return new WorkArea();
     }
 
+    public SendTypes getVisibleSendTypes(){
+
+        SendTypes s=SendTypes.NONE;
+        boolean visibleParallel,visibleChain;
+
+        if (sendTypes.filterBy(Condition.value( SendTypes.PARALLEL.Id())).size()>0){
+            s=SendTypes.PARALLEL;
+        };
+        if (sendTypes.filterBy(Condition.value( SendTypes.CHAIN.Id())).size()>0){
+            if (s!=SendTypes.NONE){
+                s=SendTypes.BOTH;
+            }else {s=SendTypes.CHAIN;}
+        };
+        return s;
+    }
 
 
 }
