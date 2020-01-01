@@ -226,9 +226,7 @@ public class NewInstructionPage  extends  _BasePage {
     }
 
     public SendTypes getVisibleSendTypes(){
-
         SendTypes s=SendTypes.NONE;
-        boolean visibleParallel,visibleChain;
 
         if (sendTypes.filterBy(Condition.value( SendTypes.PARALLEL.Id())).size()>0){
             s=SendTypes.PARALLEL;
@@ -239,6 +237,23 @@ public class NewInstructionPage  extends  _BasePage {
             }else {s=SendTypes.CHAIN;}
         };
         return s;
+    }
+
+    public void setActiveSendType(SendTypes sType){
+        //тип рассылки
+        sendTypes.get(sType.getId()).click();
+    }
+
+    public SendTypes getActiveSendType(){
+        SendTypes s=SendTypes.NONE;
+        boolean isActive[]={false,false};
+        for (int i=0;i<sendTypes.size();i++){
+            if(sendTypes.get(i).has(Condition.attribute("class",
+                    "toggle-button square-sm-button elevation-0 v-btn v-btn--active theme--light white"))){
+                isActive[i]=true;
+            }
+        }
+        return s.getTypes(isActive);
     }
 
 

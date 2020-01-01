@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -18,7 +17,7 @@ import ru.lanit.ld.wc.tests.TestBase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class NewInstructionElements_SendType_OnForm extends TestBase {
+public class NewInstructionElements_SendType_ActiveState extends TestBase {
 
     private WorkArea wa;
 
@@ -33,7 +32,7 @@ public class NewInstructionElements_SendType_OnForm extends TestBase {
     public Object[][] taskType() {
 
         return new Object[][]{
-                new Object[]{app.focusedUser.getUserTypes().getAnyTaskType()}
+                new Object[]{app.focusedUser.getUserTypes().getAnyNoticeType()}
         };
     }
 
@@ -42,35 +41,12 @@ public class NewInstructionElements_SendType_OnForm extends TestBase {
     @Story(value = "Тип рассылки")
     @Test(  dataProvider = "taskType",
             groups="NewInstructionTests",
-            description ="Проверка типа рассылок на форме задания" )
-    public void sendTypesElementsTaskExists(InstructionType instructionType)
+            description ="Проверка активного типа рассылки на форме уведомления" )
+    public void activeSendTypeNotice(InstructionType instructionType)
     {
         wa.newInstructionPage= wa.openNew(instructionType);
 
-        assertThat(wa.newInstructionPage.getVisibleSendTypes(), equalTo(SendTypes.BOTH));
-    }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @DataProvider
-    public Object[][] noticeType() {
-
-        return new Object[][]{
-                new Object[]{app.focusedUser.getUserTypes().getAnyNoticeType()}
-        };
-    }
-
-    @Epic(value = "Раздел Сообщения")
-    @Feature(value = "Новое сообщение")
-    @Story(value = "Тип рассылки")
-    @Test(  dataProvider = "noticeType",
-            groups="NewInstructionTests",
-            description ="Проверка типа рассылок на форме уведомления" )
-    public void sendTypesElementsNoticeExists(InstructionType instructionType)
-    {
-        wa.newInstructionPage= wa.openNew(instructionType);
-
-        assertThat(wa.newInstructionPage.getVisibleSendTypes(), equalTo(SendTypes.PARALLEL));
+        assertThat(wa.newInstructionPage.getActiveSendType(), equalTo(SendTypes.PARALLEL));
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

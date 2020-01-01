@@ -29,4 +29,18 @@ public enum SendTypes {
         return icon;
     }
 
+    public SendTypes getTypes(boolean[] isActive) {
+
+        if (isActive[0]==true && isActive[1]==true){
+            return SendTypes.BOTH;
+        }
+        if (isActive[0]==true){
+            return SendTypes.PARALLEL;
+        }
+        if (isActive[1]==true){
+            return SendTypes.CHAIN;
+        }
+        return SendTypes.NONE;
+    }
+
 }
