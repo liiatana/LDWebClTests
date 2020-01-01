@@ -4,14 +4,19 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import org.hamcrest.CoreMatchers;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.lanit.ld.wc.enums.SendTypes;
 import ru.lanit.ld.wc.model.InstructionType;
 import ru.lanit.ld.wc.pages.LoginPage;
 import ru.lanit.ld.wc.pages.WorkArea;
 import ru.lanit.ld.wc.tests.TestBase;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class NewInstructionElements_SendType extends TestBase {
 
@@ -42,13 +47,7 @@ public class NewInstructionElements_SendType extends TestBase {
     {
         wa.newInstructionPage= wa.openNew(instructionType);
 
-        wa.newInstructionPage.sendTypes.shouldHaveSize(2);
-
-        wa.newInstructionPage.sendTypes.first().$x("div").shouldHave(Condition.text("view_week")); //название иконки
-        wa.newInstructionPage.sendTypes.first().parent().$x("span").shouldHave(Condition.text("Параллельная")); //название рассылки
-
-        wa.newInstructionPage.sendTypes.last().$x("div").shouldHave(Condition.text("reorder")); //название иконки
-        wa.newInstructionPage.sendTypes.last().parent().$x("span").shouldHave(Condition.text("Последовательная")); //название рассылки
+        assertThat(wa.newInstructionPage.getVisibleSendTypes(), equalTo(SendTypes.BOTH));
 
     }
 
@@ -72,12 +71,7 @@ public class NewInstructionElements_SendType extends TestBase {
     {
         wa.newInstructionPage= wa.openNew(instructionType);
 
-        wa.newInstructionPage.sendTypes.shouldHaveSize(1);
-        wa.newInstructionPage.sendTypes.first().$x("div").shouldHave(Condition.text("view_week")); //название иконки
-        wa.newInstructionPage.sendTypes.first().parent().$x("span").shouldHave(Condition.text("Параллельная")); //название рассылки
-        wa.newInstructionPage.sendTypes.first().has(Condition.attribute("class",
-                "toggle-button square-sm-button elevation-0 v-btn v-btn--active theme--light white")); //активность кнопки
-
+        assertThat(wa.newInstructionPage.getVisibleSendTypes(), equalTo(SendTypes.PARALLEL));
     }
 
 
