@@ -1,10 +1,8 @@
 package ru.lanit.ld.wc.tests.smoke.NewInstruction;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import org.hamcrest.CoreMatchers;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -18,7 +16,7 @@ import ru.lanit.ld.wc.tests.TestBase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class NewInstructionElements_SendType extends TestBase {
+public class NewInstructionElements_SendType_OnForm extends TestBase {
 
     private WorkArea wa;
 
@@ -48,7 +46,6 @@ public class NewInstructionElements_SendType extends TestBase {
         wa.newInstructionPage= wa.openNew(instructionType);
 
         assertThat(wa.newInstructionPage.getVisibleSendTypes(), equalTo(SendTypes.BOTH));
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,8 +70,6 @@ public class NewInstructionElements_SendType extends TestBase {
 
         assertThat(wa.newInstructionPage.getVisibleSendTypes(), equalTo(SendTypes.PARALLEL));
     }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
