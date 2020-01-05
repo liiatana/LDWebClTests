@@ -77,9 +77,20 @@ public class Users {
         Collections.shuffle(usersCollection);
 
         return  new Users (usersCollection.subList(0, numberOfReceivers));
-
-
     }
+
+    public UserInfo getAnyUser() {
+
+        List<UserInfo> usersCollection = new ArrayList<UserInfo>();
+        usersCollection.addAll(this.users);
+        Collections.shuffle(usersCollection);
+
+        return usersCollection.stream()
+                 .findAny().orElse(null);
+    }
+
+
+
 
     public int[] Ids() {
 
