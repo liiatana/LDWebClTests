@@ -41,7 +41,8 @@ public class TestBase {
         app.allureManager.addEnviromentInfo("FrontVersion", lp.open().version.getText().substring(2));
 
         app.focusedUser.getUserApi().makeHomeAsLastUrl();
-        app.userList.getAnyAdmin().getUserApi().patchSettings( "EsignMode", EsignModes.DISABLED.toString()); //отключить ЭП
+        app.userList.getAnyAdmin().getUserApi().patchSettings( "EsignMode", EsignModes.DISABLED.toString(),true); //отключить ЭП
+
 
     }
 

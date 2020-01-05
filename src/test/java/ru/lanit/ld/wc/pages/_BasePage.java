@@ -16,7 +16,7 @@ public class _BasePage {
             Selenide.sleep(1000); // на секунду "засыпаем"
             //System.out.println("size1=" + loadingCircles.size());
             watingCounts++;
-            System.out.println("watingCounts=" + watingCounts);
+            //System.out.println("watingCounts=" + watingCounts);
             if (watingCounts >= 120) { //ждем максимум 2 минуты
                 return false;
             }
