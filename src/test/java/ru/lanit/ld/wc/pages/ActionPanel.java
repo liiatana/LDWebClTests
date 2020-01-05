@@ -63,6 +63,7 @@ public class ActionPanel extends _BasePage {
 
     public NewInstructionPage PlusButtonClick(InstructionType type) {
         PlusButton.click();
+        waitLoading();
         plusButtonMenu.filterBy(Condition.exactText(type.getName())).first().click();
         waitLoading();
         return page(NewInstructionPage.class);
