@@ -3,9 +3,7 @@ package ru.lanit.ld.wc.model;
 
 import io.qameta.allure.Step;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class InstructionTypes {
     public List<InstructionType> typeList;
@@ -28,6 +26,9 @@ public class InstructionTypes {
 
     // возвращает один любой тип задания
     public InstructionType getAnyTaskType() {
+       // List<InstructionType> typesCollection = new ArrayList<InstructionType>();
+        //typesCollection.addAll(this.typeList);
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getUseControl() == true)
                 .findAny().orElse(null);
