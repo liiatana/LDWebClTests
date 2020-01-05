@@ -10,6 +10,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.lanit.ld.wc.enums.RefreshMessageDefaultSettings;
 import ru.lanit.ld.wc.model.*;
 
 import java.util.ArrayList;
@@ -257,18 +258,59 @@ public class RestApiHelper {
         this.session.start();
     }
 
-    public boolean patchSettings(String paramentr, String newValue){
+    public boolean patchSettings(String paramentr, String newValue,Boolean isAdminSettings){
         JsonObject param = new JsonObject();
         param.addProperty(paramentr,newValue );
+
+        String whoseSettings = isAdminSettings ? "admin/settings" : "me/settings";
+
 
         Response response = RestAssured
                 .given().header("Cookie", cookies)
                 .contentType("application/json")
                 .body(param.toString())
-                .patch(String.format("%sadmin/settings", apiPath));
+                .patch(String.format("%s%s", apiPath,whoseSettings));
         if(response.getStatusCode()==200){
             return true;
         } else return false;
 
+    }
+
+
+    public boolean patchSettings(String paramentr, JsonObject jsonObject,Boolean isAdminSettings){
+        JsonObject param = new JsonObject();
+        param.add(paramentr,jsonObject);
+
+        String whoseSettings = isAdminSettings ? "admin/settings" : "me/settings";
+
+        Response response = RestAssured
+                .given().header("Cookie", cookies)
+                .contentType("application/json")
+                .body(param.toString())
+                .patch(String.format("%s%s", apiPath,whoseSettings));
+        if(response.getStatusCode()==200){
+            return true;
+        } else return false;
+
+    }
+
+    public MessageDefaultSettings getDefaultMessageSettingsForType(InstructionType iType, boolean isForForward, boolean isAdminSettings){
+
+        String whoseSettings = isAdminSettings ? "admin/settings" : "me/settings";
+
+        String json = RestAssured
+                .given().header("Cookie", cookies)
+                .get(String.format("%s%s", apiPath, whoseSettings))
+                .asString();
+
+        String operation = isForForward ? "forwardMessageDefaultSettings" : "newMessageDefaultSettings";
+
+        JsonElement jsonElement = new JsonParser().parse(json)
+                .getAsJsonObject()
+                .get("messageDefaultSettings").getAsJsonObject()
+                .get(operation).getAsJsonObject()
+                .get(Integer.toString(iType.getId()) );
+
+        return new MessageDefaultSettings(jsonElement.getAsJsonObject());
     }
 }
