@@ -1,6 +1,5 @@
 package ru.lanit.ld.wc.tests.smoke.NewInstruction;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
@@ -8,8 +7,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.lanit.ld.wc.enums.RefreshMessageDefaultSettings;
 import ru.lanit.ld.wc.enums.SendTypes;
 import ru.lanit.ld.wc.model.InstructionType;
+import ru.lanit.ld.wc.model.MessageDefaultSettings;
+import ru.lanit.ld.wc.model.UserInfo;
 import ru.lanit.ld.wc.pages.LoginPage;
 import ru.lanit.ld.wc.pages.WorkArea;
 import ru.lanit.ld.wc.tests.TestBase;
@@ -20,11 +22,15 @@ import static org.hamcrest.Matchers.equalTo;
 public class NewInstructionElements_SendType_ActiveState extends TestBase {
 
     private WorkArea wa;
+    private UserInfo user;
+    private UserInfo admin;
 
     @BeforeClass
     public void before() {
-        LoginPage lp = new LoginPage();
-        wa = lp.open().loginAs(app.focusedUser);
+        admin = app.userList.getAnyAdmin();
+        user = app.userList.getAnyUser();
+        user.getUserApi().makeHomeAsLastUrl();
+
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,54 +38,86 @@ public class NewInstructionElements_SendType_ActiveState extends TestBase {
     public Object[][] taskType() {
 
         return new Object[][]{
-                new Object[]{app.focusedUser.getUserTypes().getAnyNoticeType()}
+                new Object[]{SendTypes.PARALLEL, SendTypes.CHAIN, RefreshMessageDefaultSettings.YES},
+                new Object[]{SendTypes.PARALLEL, SendTypes.CHAIN, RefreshMessageDefaultSettings.NO},
+                new Object[]{SendTypes.CHAIN, SendTypes.PARALLEL, RefreshMessageDefaultSettings.YES},
+                new Object[]{SendTypes.CHAIN, SendTypes.PARALLEL, RefreshMessageDefaultSettings.NO}
         };
     }
 
     @Epic(value = "Раздел Сообщения")
     @Feature(value = "Новое сообщение")
     @Story(value = "Тип рассылки")
-    @Test(  dataProvider = "taskType",
-            groups="NewInstructionTests",
-            description ="Проверка активного типа рассылки на форме уведомления" )
-    public void activeSendTypeNotice(InstructionType instructionType)
-    {
-        wa.newInstructionPage= wa.openNew(instructionType);
+    @Test(dataProvider = "taskType",
+            groups = "NewInstructionTests",
+            description = "Проверка активного значения по умолчанию на форме задания в зависимости от настроек администратора")
+
+    public void activeSendTypeForTask(SendTypes sendTypeforAdmin, SendTypes sendTypesForUser, RefreshMessageDefaultSettings defaultSettings) {
+        InstructionType instructionType = user.getUserTypes().getAnyTaskType();
+        System.out.println(instructionType.getId()+instructionType.getName());
+        SendTypes expectedActiveType = setSendTypesForAdminAndUser(instructionType, sendTypeforAdmin, sendTypesForUser, defaultSettings);
+
+        LoginPage lp = new LoginPage();
+        wa = lp.open().loginAs(user);
+        wa.newInstructionPage = wa.openNew(instructionType);
+
+        assertThat(wa.newInstructionPage.getActiveSendType(), equalTo(expectedActiveType));
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Epic(value = "Раздел Сообщения")
+    @Feature(value = "Новое сообщение")
+    @Story(value = "Тип рассылки")
+    @Test(  groups = "NewInstructionTests",
+            description = "Проверка активного значения по умолчанию на форме уведомления")
+
+    public void activeSendTypeForNotice() {
+        LoginPage lp = new LoginPage();
+        wa = lp.open().loginAs(user);
+        wa.newInstructionPage = wa.openNew(user.getUserTypes().getAnyNoticeType());
 
         assertThat(wa.newInstructionPage.getActiveSendType(), equalTo(SendTypes.PARALLEL));
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @DataProvider
-    public Object[][] instructionType() {
-
-        return new Object[][]{
-                new Object[]{app.focusedUser.getUserTypes().getAnyType(),SendTypes.PARALLEL},
-                new Object[]{app.focusedUser.getUserTypes().getAnyTaskType(),SendTypes.CHAIN},
-        };
-
-    }
-
-    @Epic(value = "Раздел Сообщения")
-    @Feature(value = "Новое сообщение")
-    @Story(value = "Тип рассылки")
-    @Test(  dataProvider = "instructionType",
-            groups="NewInstructionTests",
-            description ="Проверка текста и иконки для типа рассылки" )
-    public void checkSendTypeIconAndText(InstructionType instructionType,SendTypes sType)
-    {
-        wa.newInstructionPage= wa.openNew(instructionType);
-
-        wa.newInstructionPage.sendTypes.get(sType.getId()).$x("div").shouldHave(Condition.text(sType.getIcon())); //название иконки
-        wa.newInstructionPage.sendTypes.get(sType.getId()).parent().$x("span").shouldHave(Condition.text(sType.getName())); //название рассылки
+    @AfterMethod
+    private void afterEachMethod() {
+        //wa.newInstructionPage.exitWithoutSaving();
+        user.getUserApi().makeHomeAsLastUrl();
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private SendTypes setSendTypesForAdminAndUser(InstructionType type, SendTypes adminSendType, SendTypes userSendType, RefreshMessageDefaultSettings adminMainSettings) {
+        admin.getUserApi().patchSettings("RefreshMessageDefaultSettings", adminMainSettings.toString(), true);
 
-    @AfterMethod
-    private void afterEachMethod() {
-        wa.newInstructionPage.exitWithoutSaving();
+        MessageDefaultSettings adminDefaultMessageSettingsForType = admin
+                .getUserApi().getDefaultMessageSettingsForType(type, false, true);
+
+        MessageDefaultSettings userDefaultMessageSettingsForType = user
+                .getUserApi().getDefaultMessageSettingsForType(type, false, false);
+
+        admin.getUserApi().patchSettings(
+                "messageDefaultSettings",
+                adminDefaultMessageSettingsForType.withSendType(adminSendType).toJson(type, false),
+                true);
+
+        user.getUserApi().patchSettings(
+                "messageDefaultSettings",
+                userDefaultMessageSettingsForType.withSendType(userSendType).toJson(type, false),
+                false);
+
+        SendTypes expectedSendType = null;
+        switch (adminMainSettings) {
+            case NO:
+                expectedSendType = userSendType;
+                break;
+            case YES:
+                expectedSendType = adminSendType;
+                break;
+        }
+        return expectedSendType;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
