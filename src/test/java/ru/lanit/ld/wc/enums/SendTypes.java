@@ -29,6 +29,7 @@ public enum SendTypes {
         return icon;
     }
 
+
     public SendTypes getTypes(boolean[] isActive) {
 
         if (isActive[0]==true && isActive[1]==true){
