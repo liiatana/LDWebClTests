@@ -10,6 +10,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.lanit.ld.wc.enums.InstructionTopFolders;
 import ru.lanit.ld.wc.enums.RefreshMessageDefaultSettings;
 import ru.lanit.ld.wc.model.*;
 
@@ -70,16 +71,18 @@ public class RestApiHelper {
             InstructionType itype = new Gson().fromJson(types1, InstructionType.class);
 
             JsonElement r2 = parsed.getAsJsonArray().get(i).getAsJsonObject().get("receiverTypes").getAsJsonArray();
-            int[] rt = new Gson().fromJson(r2, new TypeToken<int[]>() {
+            /*int[] rt = new Gson().fromJson(r2, new TypeToken<int[]>() {
             }.getType());
 
-            itype.receiverTypes = rt;
+            itype.receiverTypes = rt;*/
+            itype.receiverTypes=new Gson().fromJson(r2, new TypeToken<int[]>() {}.getType());
             iTypes.add(itype);
+
         }
 
-        InstructionTypes types = new InstructionTypes(iTypes);
+        //InstructionTypes types = new InstructionTypes(iTypes);
 
-        return types; //       return iTypes;
+        return new InstructionTypes(iTypes); //       return iTypes;
     }
 
 
@@ -126,7 +129,7 @@ public class RestApiHelper {
     public void makeHomeAsLastUrl() {
 
         JsonObject lastVisitedUrl = new JsonObject();
-        lastVisitedUrl.addProperty("lastVisitedUrl", "/instructions/1999");
+        lastVisitedUrl.addProperty("lastVisitedUrl", String.format("/instructions/%s", InstructionTopFolders.INCOMING.getId()));
 
         /*Response response = */
         RestAssured
@@ -142,7 +145,7 @@ public class RestApiHelper {
 
         String data ;//= "{\"top\": \"50\",\"skip\":0,\"searchText\":null,\"members\":null,\"filterId\":null,\"filterValues\":null } ";
 
-        data=String.format("{\"top\": 100,\"skip\":0,\"searchText\":null,\"members\":null,\"filterId\":null,\"filterValues\":null } ");
+        data= "{\"top\": 100,\"skip\":0,\"searchText\":null,\"members\":null,\"filterId\":null,\"filterValues\":null } ";
 
         String res = RestAssured
                 .given().header("Cookie", cookies)
@@ -154,9 +157,9 @@ public class RestApiHelper {
                 .asString();
 
         JsonElement parsed = new JsonParser().parse(res);
-        FolderList folderList = new FolderList(parsed);
+        //FolderList folderList = new FolderList(parsed);
 
-        return folderList;
+        return new FolderList(parsed);
 
     }
 
@@ -270,9 +273,7 @@ public class RestApiHelper {
                 .contentType("application/json")
                 .body(param.toString())
                 .patch(String.format("%s%s", apiPath,whoseSettings));
-        if(response.getStatusCode()==200){
-            return true;
-        } else return false;
+        return response.getStatusCode() == 200;
 
     }
 
@@ -288,9 +289,7 @@ public class RestApiHelper {
                 .contentType("application/json")
                 .body(param.toString())
                 .patch(String.format("%s%s", apiPath,whoseSettings));
-        if(response.getStatusCode()==200){
-            return true;
-        } else return false;
+        return response.getStatusCode() == 200;
 
     }
 
