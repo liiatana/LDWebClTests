@@ -27,10 +27,8 @@ public class NewInstructionElements_SendType_ChangeState extends TestBase {
         user.getUserApi().makeHomeAsLastUrl();
 
         LoginPage lp = new LoginPage();
-        wa = lp.open().loginAs(app.focusedUser);
-
+        wa = lp.open().loginAs(user);
         wa.newInstructionPage= wa.openNew(user.getUserTypes().getAnyTaskType());
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
