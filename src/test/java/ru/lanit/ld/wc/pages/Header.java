@@ -41,7 +41,9 @@ public class Header extends  _BasePage {
 
     public String getLastName() {
         //FIO.getText().split("\n")[1].split(" ")[0] - фамилия
-        return FIO.getText().split("\n")[1].split(" ")[0];
+        //button[@class="deputy-btn v-btn v-btn--flat theme--light"]/*/span
+        return FIO.$x("div/span").getText().split(" ")[0];
+        //return FIO.getText().split("\n")[1].split(" ")[0];
     }
 
     public void exit() {

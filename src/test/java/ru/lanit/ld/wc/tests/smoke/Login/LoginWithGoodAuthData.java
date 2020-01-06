@@ -6,10 +6,14 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.lanit.ld.wc.enums.SendTypes;
 import ru.lanit.ld.wc.model.UserInfo;
 import ru.lanit.ld.wc.pages.WorkArea;
 import ru.lanit.ld.wc.pages.LoginPage;
 import ru.lanit.ld.wc.tests.TestBase;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class LoginWithGoodAuthData extends TestBase {
 
@@ -32,9 +36,7 @@ public class LoginWithGoodAuthData extends TestBase {
 
         LoginPage lp = new LoginPage();
         wa = lp.open().loginAs(user);
-
-        Assert.assertEquals(wa.header.getLastName().toUpperCase(), user.getLastName().toUpperCase());
-
+        assertThat(wa.header.getLastName().toUpperCase(), equalTo(user.getLastName().toUpperCase()));
 
     }
 

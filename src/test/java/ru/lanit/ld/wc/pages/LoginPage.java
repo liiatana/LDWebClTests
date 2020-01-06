@@ -27,7 +27,6 @@ public class LoginPage extends _BasePage {
     public WorkArea loginAs(UserInfo user) {
 
         fillLoginInfomation(user);
-        //sleep(6000);
         this.waitLoading();
         return page(WorkArea.class);
 
