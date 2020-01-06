@@ -18,6 +18,7 @@ public class InstructionTypes {
     // возвращает один любой тип уведомления
     @Step("Найти любой тип уведомления")
     public InstructionType getAnyNoticeType() {
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getUseControl() == false)
                 .findAny().orElse(null);
@@ -26,8 +27,6 @@ public class InstructionTypes {
 
     // возвращает один любой тип задания
     public InstructionType getAnyTaskType() {
-       // List<InstructionType> typesCollection = new ArrayList<InstructionType>();
-        //typesCollection.addAll(this.typeList);
         Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getUseControl() == true)
@@ -37,6 +36,7 @@ public class InstructionTypes {
 
     //возвращает тип по ID
     public InstructionType getInstructionTypeNameById(int instructionTypeId) {
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getId() == instructionTypeId)
                 .findFirst().orElse(null);
@@ -45,6 +45,7 @@ public class InstructionTypes {
 
     // возвращает один любой тип задания с ДПО
     public InstructionType getControlTypeWithClerical() {
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getUseControl() == true && x.getOperationID() > 0)
                 .findAny().orElse(null);
@@ -54,7 +55,7 @@ public class InstructionTypes {
 
     // возвращает один любой тип задания, у которого проводится проверка на заполненность текста отчета
     public InstructionType getControlTypeForPossitiveCheck(int checkType) {
-
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getUseControl() == true && x.getCheckReportTypePositive() == checkType)
                 .findAny().orElse(null);
@@ -63,6 +64,7 @@ public class InstructionTypes {
 
     // возвращает один любой тип задания, который можно перенаправить только как Контрольный
     public InstructionType getAnyWithRedirectedAsControl() {
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.isRedirectAsControl() == true)
                 .findAny().orElse(null);
@@ -87,13 +89,14 @@ public class InstructionTypes {
 
     //возвращает любой тип
     public InstructionType getAnyType() {
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .findAny().orElse(null);
     }
 
     // возвращает один любой с пустым текстом по умолчанию
     public InstructionType getAnyWithDefaultSubjectEmpty() {
-
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getTemplateText() == null)
                 .findAny().orElse(null);
@@ -101,7 +104,7 @@ public class InstructionTypes {
 
     // возвращает один любой с НЕпустым текстом по умолчанию
     public InstructionType getAnyWithDefaultSubjectNonEmpty() {
-
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getTemplateText() != null)
                 .findAny().orElse(null);
@@ -118,6 +121,7 @@ public class InstructionTypes {
 
     // возвращает один любой тип задания кроме заданного
     public InstructionType getAnyTaskTypeExcept(InstructionType excludeType) {
+        Collections.shuffle(this.typeList);
         return this.typeList.stream()
                 .filter(x -> x.getUseControl() == true)
                 .filter(x -> x.getId() != excludeType.getId())

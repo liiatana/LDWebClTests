@@ -3,10 +3,7 @@ package ru.lanit.ld.wc.model;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ru.lanit.ld.wc.enums.RefreshMessageDefaultSettings;
 import ru.lanit.ld.wc.enums.SendTypes;
-
-import java.time.format.DateTimeFormatter;
 
 public class MessageDefaultSettings {
     private int initiatorSettings;
@@ -92,11 +89,7 @@ public class MessageDefaultSettings {
 
     public JsonObject toJson(InstructionType type, boolean isForForward){
 
-        //String operation = isForForward ? "forwardMessageDefaultSettings" : "newMessageDefaultSettings";
         JsonObject typeSettings = new JsonObject();
-
-//        typeSettings.addProperty("%s", operation);
-
         JsonObject newSettings = new JsonObject();
 
         newSettings.addProperty("initiatorSettings", this.initiatorSettings);
@@ -135,7 +128,6 @@ public class MessageDefaultSettings {
 
         typeSettings.add(Integer.toString(type.getId()),newSettings);
 
-       // String operation = isForForward ? "forwardMessageDefaultSettings" : "newMessageDefaultSettings";
         JsonObject newSet = new JsonObject();
         newSet.add(isForForward ? "forwardMessageDefaultSettings" : "newMessageDefaultSettings",typeSettings);
 
