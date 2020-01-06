@@ -44,4 +44,12 @@ public enum SendTypes {
         return SendTypes.NONE;
     }
 
+    public SendTypes reverse(SendTypes currentSendType) {
+        switch (currentSendType) {
+            case PARALLEL: return CHAIN;
+            case CHAIN:return PARALLEL;
+            default:return NONE;
+        }
+
+    }
 }

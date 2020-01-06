@@ -241,7 +241,9 @@ public class NewInstructionPage  extends  _BasePage {
 
     public void setActiveSendType(SendTypes sType){
         //тип рассылки
-        sendTypes.get(sType.getId()).click();
+        if(getActiveSendType()!=sType){
+            sendTypes.get(sType.getId()).click();}
+
     }
 
     public SendTypes getActiveSendType(){

@@ -54,7 +54,7 @@ public class NewInstructionElements_SendType_ActiveState extends TestBase {
 
     public void activeSendTypeForTask(SendTypes sendTypeforAdmin, SendTypes sendTypesForUser, RefreshMessageDefaultSettings defaultSettings) {
         InstructionType instructionType = user.getUserTypes().getAnyTaskType();
-        System.out.println(instructionType.getId()+instructionType.getName());
+
         SendTypes expectedActiveType = setSendTypesForAdminAndUser(instructionType, sendTypeforAdmin, sendTypesForUser, defaultSettings);
 
         LoginPage lp = new LoginPage();
