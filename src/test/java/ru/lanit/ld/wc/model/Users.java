@@ -4,12 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.lanit.ld.wc.appmanager.ApplicationManager;
 import ru.lanit.ld.wc.appmanager.RestApiHelper;
-import ru.lanit.ld.wc.tests.TestBase;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -72,8 +70,6 @@ public class Users {
     public Users anyUsers(int numberOfReceivers, UserInfo excludedUser) {
 
         List<UserInfo> usersCollection = new ArrayList<UserInfo>();
-        //Users newlist = new Users();
-
         usersCollection.addAll(this.users);
 
         if (excludedUser != null) {
@@ -109,28 +105,15 @@ public class Users {
     }
 
     public UserInfo getUserById(int Id) {
-        int i = 0;
-
-        do {
-            if (this.users.get(i).getId() == Id) {
-                return this.users.get(i);
-            }
-            i++;
-        } while (i < this.users.size());
-
-        return null;
+        return this.users.stream()
+                .filter(x -> x.getId()==Id)
+                .findAny().orElse(null);
     }
 
-    public int getUserIdByFIO(String FIO) {
-        int Id, i = 0;
-        do {
-            if (FIO.equals(this.users.get(i).getUserName())) {
-                return this.users.get(i).getId();
-            }
-            i++;
-        } while (i < this.users.size());
-
-        return -1;
+    public UserInfo getUserIdByFIO(String FIOpart) {
+        return this.users.stream()
+                .filter(x -> x.getUserName().toUpperCase().contains(FIOpart.toUpperCase()))
+                .findAny().orElse(null);
     }
 
     public void stopAllMaintainSession(){
