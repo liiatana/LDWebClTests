@@ -47,8 +47,6 @@ public class ApplicationManager {
         userList.load(this);
         focusedUser = userList.users.get(0);
 
-        //focusedUser.getUserApi().makeHomeAsLastUrl();
-
         instructionHelper=new InstructionHelper(this);
 
 
@@ -64,8 +62,6 @@ public class ApplicationManager {
                 System.setProperty("webdriver.gecko.driver", "C:\\1\\geckodriver.exe");
                 break;
         }*/
-
-
 
         Configuration.browser = browser;
         Configuration.baseUrl = baseUrl;

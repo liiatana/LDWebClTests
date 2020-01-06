@@ -153,11 +153,9 @@ public class RestApiHelper {
                 .body(data)
                 .when()
                 .post(String.format("%sinstructions/folder/%s/instructions", apiPath, folder))
-                //instructions/folder/2107/instructions
                 .asString();
 
         JsonElement parsed = new JsonParser().parse(res);
-        //FolderList folderList = new FolderList(parsed);
 
         return new FolderList(parsed);
 

@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.lanit.ld.wc.appmanager.ApplicationManager;
 import ru.lanit.ld.wc.appmanager.RestApiHelper;
+import ru.lanit.ld.wc.tests.TestBase;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +22,8 @@ import java.util.List;
 
 public class Users {
     public List<UserInfo> users;
+    private Logger logger = LoggerFactory.getLogger(Users.class);
+
 
     public Users() {
     }
@@ -130,11 +136,12 @@ public class Users {
     public void stopAllMaintainSession(){
         for (int i = 0; i < this.users.size(); i++) {
             this.users.get(i).getUserApi().session.interrupt();
-            //System.out.println("Stop maintain session for user with login="+ this.users.get(i).getLogin());
+             logger.info ("Stop maintain session for user with login="+ this.users.get(i).getLogin());
         }
     }
 
     public UserInfo getAnyAdmin(){
+        Collections.shuffle(this.users);
         return this.users.stream()
                 .filter(x -> x.isAdmin() == true)
                 .findAny().orElse(null);

@@ -20,21 +20,6 @@ public class InstructionType {
     public InstructionType() {
     }
 
-/*    public InstructionType(int id, String name, int operationID, String operation, int interval, String reportFlag, boolean redirectAsControl, boolean useControl, boolean active, int checkReportTypeNegative, int checkReportTypePositive, int[] receiverTypes) {
-        this.id = id;
-        this.name = name;
-        this.operationID = operationID;
-        this.operation = operation;
-        this.interval = interval;
-        this.reportFlag = reportFlag;
-        this.redirectAsControl = redirectAsControl;
-        this.useControl = useControl;
-        this.active = active;
-        this.checkReportTypeNegative = checkReportTypeNegative;
-        this.checkReportTypePositive = checkReportTypePositive;
-        this.receiverTypes = receiverTypes;
-    }*/
-
     public InstructionType(InstructionType type) {
         this.id = type.id;
         this.name = type.name;

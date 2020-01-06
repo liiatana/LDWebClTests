@@ -10,22 +10,12 @@ public class instructionFolder {
     private int id;//: 1999
     private String name; //: "Входящая"
 
-    /*public instructionFolder() {
-        this.id = id;
-        this.name = name;
-    }*/
-
     public instructionFolder(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
     public instructionFolder(JsonObject parsed) {
-
-        //JsonObject jsonFolder = parsed.getAsJsonObject().get("folder").getAsJsonObject();
-
-        //this.id = jsonFolder.get("id").getAsInt();
-        //this.name = jsonFolder.get("name").getAsString();
 
         this.id = parsed.get("id").getAsInt();
         this.name = parsed.get("name").getAsString();
