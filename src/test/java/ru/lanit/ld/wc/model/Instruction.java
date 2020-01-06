@@ -159,6 +159,7 @@ public class Instruction {
 
     public Instruction withInstructionType(InstructionType instructionType) {
         this.instructionType = instructionType;
+        this.instructionTypeId=this.instructionType.getId();
         return this;
     }
 

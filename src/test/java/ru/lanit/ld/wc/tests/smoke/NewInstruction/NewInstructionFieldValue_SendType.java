@@ -70,9 +70,6 @@ public class NewInstructionFieldValue_SendType extends TestBase {
         LoginPage lp = new LoginPage();
         wa = lp.open().loginAs(user);
 
-        //получить список сообщений в папке Исходящая
-
-
         //открыть форму Новое сообщение типа instructionType и отправить сообщение
         wa.createMessage(new Instruction(app).withInstructionType(instructionType),"send",app);
 
