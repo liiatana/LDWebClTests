@@ -83,7 +83,7 @@ public class NewInstructionElements_SendType_ActiveState extends TestBase {
 
     @AfterMethod
     private void afterEachMethod() {
-        //wa.newInstructionPage.exitWithoutSaving();
+        wa.newInstructionPage.exitWithoutSaving();
         user.getUserApi().makeHomeAsLastUrl();
     }
 

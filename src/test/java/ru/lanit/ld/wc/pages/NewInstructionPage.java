@@ -59,15 +59,15 @@ public class NewInstructionPage  extends  _BasePage {
         waitLoading();
 
         //текстовые поля
-        if (subject.getValue() != null && newInstruction.getSubject() != null) {
+        if (subject.getValue() != null && newInstruction.getSubject() != null && !newInstruction.getSubject().isEmpty()) {
             setValueToTextFeild(subject, newInstruction.getSubject());
         } else clearTextFeild(subject);
 
-        if (text.getValue() != null && newInstruction.getText() != null) {
+        if (text.getValue() != null && newInstruction.getText() != null && !newInstruction.getText().isEmpty()) {
             setValueToTextArea(text, newInstruction.getText());
         } else clearTextFeild(text);
 
-        if (comment.getValue() != null && newInstruction.getComment() != null) {
+        if (comment.getValue() != null && newInstruction.getComment() != null && !newInstruction.getComment().isEmpty()) {
             setValueToTextFeild(comment, newInstruction.getComment());
         } else clearTextFeild(comment);
 
