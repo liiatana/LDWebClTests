@@ -1,4 +1,4 @@
-package ru.lanit.ld.wc.tests.smoke.NewInstruction;
+package ru.lanit.ld.wc.tests.smoke.samples;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
