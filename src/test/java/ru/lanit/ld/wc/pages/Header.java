@@ -57,7 +57,7 @@ public class Header extends  _BasePage {
         menu.filterBy(Condition.text("Сообщение")).get(0).click();
 
         objectTypes_dialog.availableTypes.findBy(
-                Condition.text(type.getName())).click();
+                Condition.exactText(type.getName())).click();
 
         waitLoading();
         return page(NewInstructionPage.class);

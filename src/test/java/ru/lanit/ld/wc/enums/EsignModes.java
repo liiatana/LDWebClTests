@@ -1,7 +1,5 @@
 package ru.lanit.ld.wc.enums;
 
-import com.google.gson.JsonObject;
-
 public enum EsignModes {
     DISABLED (1, "Не использовать функционал ЭП"),
     ENABLED (2, "Требовать ЭП"),

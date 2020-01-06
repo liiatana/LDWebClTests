@@ -24,9 +24,6 @@ public class ApplicationManager {
 
     public AllureManager allureManager;
 
-    public InstructionHelper instructionHelper;
-
-
     public ApplicationManager(String browser, String browserSize) {
 
         properties = new Properties();
@@ -47,7 +44,7 @@ public class ApplicationManager {
         userList.load(this);
         focusedUser = userList.users.get(0);
 
-        instructionHelper=new InstructionHelper(this);
+        //instructionHelper=new InstructionHelper(this);
 
 
         baseUrl = properties.getProperty("web.baseUrl");

@@ -1,5 +1,7 @@
 package ru.lanit.ld.wc.model;
 
+import ru.lanit.ld.wc.enums.SendTypes;
+
 public class InstructionType {
 
     private int id;

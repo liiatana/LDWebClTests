@@ -3,6 +3,8 @@ package ru.lanit.ld.wc.model;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ru.lanit.ld.wc.appmanager.ApplicationManager;
+import ru.lanit.ld.wc.enums.SendTypes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -53,6 +55,7 @@ public class Instruction {
     private Report report;
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Instruction(JsonElement parsed, int InstructionNum) { // для создания объектов Instruction при чтении списка
         this.InstructionId =
@@ -126,8 +129,20 @@ public class Instruction {
     }
 
     public Instruction() {
-
     }
+
+    public Instruction (ApplicationManager app){
+        if (this.getReceiverID()==null)
+            this.withReceiverID(new int[]{app.userList.anyUsers(1, null).users.get(0).getId()});
+
+        if (this.getInstructionType() == null) {
+            this.withInstructionType(app.focusedUser.getUserTypes().getAnyType());
+        }
+    }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getResult() {
         return result;
@@ -308,6 +323,10 @@ public class Instruction {
 
     public int getSendType() {
         return sendType;
+    }
+
+    public SendTypes getSendTypeAsEnum() {
+        return SendTypes.getById(sendType);
     }
 
     public Instruction withSendType(int sendType) {
@@ -576,4 +595,6 @@ public class Instruction {
 
         return inst;
     }
+
+
 }

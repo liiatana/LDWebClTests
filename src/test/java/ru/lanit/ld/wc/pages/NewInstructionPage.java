@@ -70,14 +70,15 @@ public class NewInstructionPage  extends  _BasePage {
         if (comment.getValue() != null && newInstruction.getComment() != null && !newInstruction.getComment().isEmpty()) {
             setValueToTextFeild(comment, newInstruction.getComment());
         } else clearTextFeild(comment);
-
+        //тип рассылки
+        //sendTypes.get(newInstruction.getSendType()).click();
+        setActiveSendType( SendTypes.getById(newInstruction.getSendType()));
 
 
         if(newInstruction.isControl()==true)
 
     {
-        //тип рассылки
-        sendTypes.get(newInstruction.getSendType()).click();
+
 
         //ответ.исполнитель и отчеты ответственному
         setExecutiveOptions(newInstruction.isWithExecutive(), newInstruction.isReportToExecutive());

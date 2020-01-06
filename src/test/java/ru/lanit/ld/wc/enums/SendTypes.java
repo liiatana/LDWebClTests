@@ -50,6 +50,12 @@ public enum SendTypes {
             case CHAIN:return PARALLEL;
             default:return NONE;
         }
+    }
 
+    public static SendTypes getById(int id) {
+        for(SendTypes e : values()) {
+            if(e.getId()==(id)) return e;
+        }
+        return NONE;
     }
 }

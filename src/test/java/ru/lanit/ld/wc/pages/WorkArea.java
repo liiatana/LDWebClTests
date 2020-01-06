@@ -1,13 +1,11 @@
 package ru.lanit.ld.wc.pages;
 
 import io.qameta.allure.Step;
-import org.testng.annotations.Test;
 import ru.lanit.ld.wc.appmanager.ApplicationManager;
 import ru.lanit.ld.wc.model.Instruction;
 import ru.lanit.ld.wc.model.InstructionType;
 
 import static com.codeborne.selenide.Selenide.sleep;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class WorkArea extends _BasePage {
@@ -54,9 +52,6 @@ public class WorkArea extends _BasePage {
     public void createMessage(Instruction instruction, String action, ApplicationManager app) {
 
         NewInstructionPage ip = newInstructionPage;
-
-
-        instruction=app.instructionHelper.OutcommingMessage(instruction);
 
         if ((int) (Math.random() * 2) != 0) {
             ip = header.CreateButtonClick(instruction.getInstructionType());

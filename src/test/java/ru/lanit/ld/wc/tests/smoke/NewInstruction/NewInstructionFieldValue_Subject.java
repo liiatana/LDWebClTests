@@ -47,7 +47,7 @@ public class NewInstructionFieldValue_Subject extends TestBase {
             description ="Проверка текста в сообщении при разной длине" )
     public void subjectInInstruction(String textToType)
     {
-        wa.createMessage(new Instruction().withSubject(textToType),
+        wa.createMessage(new Instruction(app).withSubject(textToType),
                 "send",app);
         Instruction createdInstruction =
                 app.focusedUser.getUserApi().getLastInstruction(InstructionTopFolders.OUTCOMING.getId());

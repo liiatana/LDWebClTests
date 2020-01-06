@@ -48,7 +48,7 @@ public class NewInstructionFieldValue_Comment extends TestBase {
             description ="Проверка текста в сообщении при разной длине" )
     public void commentInInstruction(String textToType)
     {
-        wa.createMessage(new Instruction().withComment(textToType),
+        wa.createMessage(new Instruction(app).withComment(textToType),
                 "send",app);
         Instruction createdInstruction =
                 app.focusedUser.getUserApi().getLastInstruction(InstructionTopFolders.OUTCOMING.getId());
